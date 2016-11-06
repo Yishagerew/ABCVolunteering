@@ -1,13 +1,17 @@
 package edu.mum.abcVolunteering.model;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -23,14 +27,18 @@ public class Volunteer {
 	@Embedded
 	private Address address;
 	
+	@OneToMany(mappedBy = "volunteer")
 	private List<Task>tasks = new ArrayList<>();
 	
 	@Embedded
 	private Account account;
+	
+	private static DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US);
 
-	public Volunteer(String name, Date registeredDate, Address address) {
+
+	public Volunteer(String name, String registeredDate, Address address) {
 		this.name = name;
-		this.registeredDate = registeredDate;
+		setRegisteredDate(registeredDate);
 		this.address = address;
 	}
 
@@ -38,8 +46,8 @@ public class Volunteer {
 		return name;
 	}
 
-	public Date getRegisteredDate() {
-		return registeredDate;
+	public String getRegisteredDate() {
+		return df.format(registeredDate);
 	}
 
 	public Address getAddress() {
@@ -61,5 +69,14 @@ public class Volunteer {
 	public void setAccount(Account account) {
 		this.account = account;
 	}
+
+	public void setRegisteredDate(String registeredDate) {
+		try {
+			this.registeredDate = df.parse(registeredDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	
 }

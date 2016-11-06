@@ -5,7 +5,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
-import dao.ABCDao;
+import edu.mum.abcVolunteering.dao.ABCDao;
 import edu.mum.abcVolunteering.model.Task;
 
 public class TaskImpl {

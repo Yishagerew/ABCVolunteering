@@ -4,7 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 
-import dao.ABCDao;
+import edu.mum.abcVolunteering.dao.ABCDao;
 import edu.mum.abcVolunteering.model.Beneficiary;
 
 public class BeneficiaryImpl {

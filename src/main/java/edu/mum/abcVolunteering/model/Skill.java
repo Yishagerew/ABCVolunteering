@@ -12,13 +12,10 @@ public class Skill {
 	
 	private String name;
 	private String description;
-	private int yearsOfExperience;
 	
-	
-	public Skill(String name, String description, int yearsOfExperience) {
+	public Skill(String name, String description) {
 		this.name = name;
 		this.description = description;
-		this.yearsOfExperience = yearsOfExperience;
 	}
 	
 	public String getName() {
@@ -27,8 +24,6 @@ public class Skill {
 	public String getDescription() {
 		return description;
 	}
-	public int getYearsOfExperience() {
-		return yearsOfExperience;
-	}
+	
 	
 }

@@ -1,22 +1,26 @@
 package edu.mum.abcVolunteering.model;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 @Entity
-@NamedQueries({
-	@NamedQuery(name = "Task.findByProject", query = "select t from Task t where t.project = :project"),
-	@NamedQuery(name = "Task.findById", query = "select t from task t where t.taskId = :taskId")
-})
+@NamedQueries({ @NamedQuery(name = "Task.findByProject", query = "select t from Task t where t.project = :project"),
+		@NamedQuery(name = "Task.findById", query = "select t from task t where t.taskId = :taskId") })
 
 public class Task {
 	@Id
@@ -25,14 +29,33 @@ public class Task {
 	private CompletionStatus status;
 	private Date startDate;
 	private Date endDate;
-	private int numberOfDevelopers;
-	
-	@OneToMany(mappedBy = "task")
+
+	@OneToMany(cascade = CascadeType.PERSIST)
+	@JoinTable(name = "Task_Skills", joinColumns = @JoinColumn(name = "TaskId"), inverseJoinColumns = @JoinColumn(name = "SkillId"))
 	private List<Skill> requiredSkill = new ArrayList<>();
+
+	// bidirectional association
 	@ManyToOne
+	@JoinColumn(name = "projectId")
 	private Project project;
-	
-	
+
+	@ManyToOne
+	@JoinColumn(name = "beneficiaryId")
+	private Beneficiary beneficiary;
+
+	@ManyToOne
+	@JoinColumn(name = "volunteerId")
+	private Volunteer volunteer;
+
+	public Task(CompletionStatus status, String startDate, String endDate,
+			List<Skill> requiredSkill) {
+		this.status = status;
+		setStartDate(startDate);
+		setEndDate(endDate);
+		this.requiredSkill = requiredSkill;
+	}
+
+	private static DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US);
 
 	public CompletionStatus getStatus() {
 		return status;
@@ -42,12 +65,30 @@ public class Task {
 		this.status = status;
 	}
 
-	public Date getStartDate() {
-		return startDate;
+	public String getStartDate() {
+		return df.format(startDate);
 	}
 
-	public Date getEndDate() {
-		return endDate;
+	public String getEndDate() {
+		return df.format(endDate);
+	}
+
+	public void setStartDate(String startDate) {
+		try {
+			this.startDate = df.parse(startDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void setEndDate(String endDate) {
+		try {
+			this.endDate = df.parse(endDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public List<Skill> getRequiredSkill() {
@@ -62,16 +103,20 @@ public class Task {
 		this.project = project;
 	}
 
-	public int getNumberOfDevelopers() {
-		return numberOfDevelopers;
+	public Beneficiary getBeneficiary() {
+		return beneficiary;
 	}
 
-	public void setNumberOfDevelopers(int numberOfDevelopers) {
-		this.numberOfDevelopers = numberOfDevelopers;
+	public void setBeneficiary(Beneficiary beneficiary) {
+		this.beneficiary = beneficiary;
+	}
+
+	public Volunteer getVolunteer() {
+		return volunteer;
+	}
+
+	public void setVolunteer(Volunteer volunteer) {
+		this.volunteer = volunteer;
 	}
 	
-	
-	
-	
-
 }

@@ -1,8 +1,12 @@
 package edu.mum.abcVolunteering.model;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -26,11 +30,14 @@ public class Beneficiary {
 	@Lob
 	private byte[]photo;
 	
-	@OneToMany(mappedBy = "beneficiary")
+	@OneToMany(mappedBy = "beneficiary", cascade = CascadeType.PERSIST)
 	private List<Project> projects;
 	
 	@Temporal(TemporalType.DATE)
 	private Date registeredDate;
+	
+	private static DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US);
+
 	
 	/**
 	 * 
@@ -39,12 +46,22 @@ public class Beneficiary {
 	 * @param projects
 	 * @param registeredDate
 	 */
-	public Beneficiary(String name, byte[] photo, List<Project> projects, Date registeredDate) {
+	public Beneficiary(String name, byte[] photo, List<Project> projects, String registeredDate) {
 		this.name = name;
 		this.photo = photo;
 		this.projects = projects;
-		this.registeredDate = registeredDate;
+		setRegisteredDate(registeredDate);
 	}
+	
+	
+
+	public Beneficiary(String name, byte[] photo, String registeredDate) {
+		this.name = name;
+		this.photo = photo;
+		setRegisteredDate(registeredDate);
+	}
+
+
 
 	public String getName() {
 		return name;
@@ -61,6 +78,17 @@ public class Beneficiary {
 	public Date getRegisteredDate() {
 		return registeredDate;
 	}
+
+	public void setRegisteredDate(String registeredDate) {
+		try {
+			this.registeredDate =  df.parse(registeredDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
 	
 	
 	
