@@ -21,6 +21,7 @@ public class Staff {
 	
 	public Staff(String name, String email, String password) {
 		this.name = name;
+		account = new Account();
 		account.setType(AccountType.ADMINISTRATOR);
 		account.setEmail(email);
 		account.setPassword(password);

@@ -6,8 +6,11 @@
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<class>edu.mum.abcVolunteering.model.Beneficiary</class>
 		<class>edu.mum.abcVolunteering.model.Project</class>
-		<class>edu.mum.abcVolunteering.model.Skills</class>
+		<class>edu.mum.abcVolunteering.model.Skill</class>
+		<class>edu.mum.abcVolunteering.model.Staff</class>
 		<class>edu.mum.abcVolunteering.model.Task</class>
+		<class>edu.mum.abcVolunteering.model.Volunteer</class>
+		
 
 		<properties>
 			<property name="hibernate.connection.driver_class" value="org.gjt.mm.mysql.Driver" />
@@ -16,7 +19,7 @@
 			<property name="hibernate.connection.password" value="root" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect" />
 			<property name="hibernate.hbm2ddl.auto" value="create" />
-			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.show_sql" value="false" />
 			<property name="use_sql_comments" value="true" />
 			<property name="hibernate.format_sql" value="true" />
 

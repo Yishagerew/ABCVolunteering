@@ -3,6 +3,7 @@ package edu.mum.abcVolunteering.model;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -23,17 +24,17 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@NamedQueries({ @NamedQuery(name = "Project.findByStatus", query = "Select p from Project p where status = :status"),
-		@NamedQuery(name = "Project.findById", query = "Select p from Project p where projectId = :projectId"),
-		@NamedQuery(name = "Project.findAll", query = "Select p from Project p"),
-		@NamedQuery(name = "Project.findByKeyWordAndLocation", query = "Select p from Project p where lower(p.description) like CONCAT(%, CONCAT(:keyword, %)) and p.city = :city"),
-		@NamedQuery(name = "Project.findByRequiredSkill", query = "Select distinct p from Project p join p.tasks t join p.tasks.skills s where s.name = :skillName"),
+@NamedQueries({ @NamedQuery(name = "Project.findByStatus", query = "Select p from Project p where p.status = :status"),
+//		@NamedQuery(name = "Project.findById", query = "Select p from Project p where p.projectId = :projectId"),
+		@NamedQuery(name = "Project.findAll", query = "Select p from Project p order by p.status"),
+		@NamedQuery(name = "Project.findByKeyWordAndLocation", query = "Select p from Project p where p.description like :keyword and p.location.city = :city"),
+		@NamedQuery(name = "Project.findByRequiredSkill", query = "Select distinct p from Project p join p.tasks t join t.requiredSkill s where s.name = :skillName"),
 		@NamedQuery(name = "Project.findByParticipatedVolunteer", query = "Select distinct p from Project p join p.tasks t join t.volunteer v where v.volunteerId = :volunteerId ") })
 public class Project {
 
 	@Id
 	@GeneratedValue
-	private String projectId;
+	private int projectId;
 
 	@Embedded
 	private Address location;
@@ -64,6 +65,16 @@ public class Project {
 		this.status = status;
 		this.tasks = tasks;
 	}
+	
+
+	public Project(Address location, String description, String startDate, String endDate, CompletionStatus status) {
+		this.location = location;
+		this.description = description;
+		setStartDate(startDate);
+		setEndDate(endDate);
+		this.status = status;
+	}
+
 
 	public Address getLocation() {
 		return location;
@@ -107,12 +118,44 @@ public class Project {
 		return status;
 	}
 
+	/**
+	 * 
+	 * @return unmodifiable list
+	 */
+	
 	public List<Task> getTasks() {
-		return tasks;
+		return Collections.unmodifiableList(tasks);
+	}
+	
+	public void addTask(Task task){
+		task.setProject(this);
+		tasks.add(task);
+	}
+	public void removeTask(Task task){
+		task.setProject(null);
+		this.tasks.remove(task);
 	}
 
 	public Beneficiary getBeneficiary() {
 		return beneficiary;
 	}
+
+	public void setBeneficiary(Beneficiary beneficiary) {
+		this.beneficiary = beneficiary;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Project [projectId=" + projectId + ", location=" + location + ", description=" + description
+				+ ", startDate=" + startDate + ", endDate=" + endDate + ", status=" + status + "]";
+	}
+
+
+	public int getProjectId() {
+		return projectId;
+	}
+	
+	
 
 }

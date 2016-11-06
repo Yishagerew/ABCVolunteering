@@ -19,8 +19,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 @Entity
-@NamedQueries({ @NamedQuery(name = "Task.findByProject", query = "select t from Task t where t.project = :project"),
-		@NamedQuery(name = "Task.findById", query = "select t from task t where t.taskId = :taskId") })
+@NamedQueries({ @NamedQuery(name = "Task.findByProject", query = "select t from Task t where t.project.projectId = :projectId"),
+		@NamedQuery(name = "Task.findById", query = "select t from Task t where t.taskId = :taskId") })
 
 public class Task {
 	@Id
@@ -35,25 +35,30 @@ public class Task {
 	private List<Skill> requiredSkill = new ArrayList<>();
 
 	// bidirectional association
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "projectId")
 	private Project project;
 
-	@ManyToOne
-	@JoinColumn(name = "beneficiaryId")
-	private Beneficiary beneficiary;
-
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "volunteerId")
 	private Volunteer volunteer;
 
-	public Task(CompletionStatus status, String startDate, String endDate,
-			List<Skill> requiredSkill) {
+	public Task(CompletionStatus status, String startDate, String endDate) {
+		this.status = status;
+		setStartDate(startDate);
+		setEndDate(endDate);
+	}
+	
+	
+
+	public Task(CompletionStatus status, String startDate, String endDate, List<Skill> requiredSkill) {
 		this.status = status;
 		setStartDate(startDate);
 		setEndDate(endDate);
 		this.requiredSkill = requiredSkill;
 	}
+
+
 
 	private static DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US);
 
@@ -90,7 +95,7 @@ public class Task {
 			e.printStackTrace();
 		}
 	}
-
+	
 	public List<Skill> getRequiredSkill() {
 		return requiredSkill;
 	}
@@ -103,14 +108,6 @@ public class Task {
 		this.project = project;
 	}
 
-	public Beneficiary getBeneficiary() {
-		return beneficiary;
-	}
-
-	public void setBeneficiary(Beneficiary beneficiary) {
-		this.beneficiary = beneficiary;
-	}
-
 	public Volunteer getVolunteer() {
 		return volunteer;
 	}
@@ -118,5 +115,15 @@ public class Task {
 	public void setVolunteer(Volunteer volunteer) {
 		this.volunteer = volunteer;
 	}
+
+
+
+	@Override
+	public String toString() {
+		return "Task [taskId=" + taskId + ", status=" + status + ", startDate=" + startDate + ", endDate=" + endDate
+				+ "]";
+	}
+	
+	
 	
 }

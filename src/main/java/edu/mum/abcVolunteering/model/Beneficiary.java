@@ -2,6 +2,8 @@ package edu.mum.abcVolunteering.model;
 
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -19,7 +21,8 @@ import javax.persistence.TemporalType;
 
 @Entity
 @NamedQueries({
-	@NamedQuery(name = "Beneficiary.findProjects", query = "Select b from Beneficiary b where b.beneficiaryId = :beneficiaryId")
+	@NamedQuery(name = "Beneficiary.findProjects", query = "Select b from Beneficiary b where b.beneficiaryId = :beneficiaryId"),
+	@NamedQuery(name = "Beneficiary.findAll", query = "Select b from Beneficiary b")
 })
 public class Beneficiary {
 	
@@ -31,7 +34,7 @@ public class Beneficiary {
 	private byte[]photo;
 	
 	@OneToMany(mappedBy = "beneficiary", cascade = CascadeType.PERSIST)
-	private List<Project> projects;
+	private List<Project> projects = new ArrayList<>();
 	
 	@Temporal(TemporalType.DATE)
 	private Date registeredDate;
@@ -72,7 +75,16 @@ public class Beneficiary {
 	}
 
 	public List<Project> getProjects() {
-		return projects;
+		return Collections.unmodifiableList(projects);
+	}
+	
+	public void addProject(Project project){
+		project.setBeneficiary(this);
+		projects.add(project);
+	}
+	public void removeProject(Project project){
+		project.setBeneficiary(null);
+		projects.remove(project);
 	}
 
 	public Date getRegisteredDate() {
@@ -87,6 +99,15 @@ public class Beneficiary {
 			e.printStackTrace();
 		}
 	}
+
+
+
+	@Override
+	public String toString() {
+		return "Beneficiary [beneficiaryId=" + beneficiaryId + ", name=" + name + ", projects=" + projects
+				+ ", registeredDate=" + registeredDate + "]";
+	}
+	
 	
 	
 	

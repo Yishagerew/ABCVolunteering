@@ -8,6 +8,7 @@ import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
 import edu.mum.abcVolunteering.dao.ABCDao;
+import edu.mum.abcVolunteering.model.CompletionStatus;
 import edu.mum.abcVolunteering.model.Project;
 import edu.mum.abcVolunteering.model.Task;
 
@@ -77,7 +78,7 @@ public class ProjectImpl {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public static List<Project> getAllProjectsInfo() {
+	public static List<Project> getAllProjectsInfoByStatus() {
 
 		EntityManager em = ABCDao.instance.getEntityManager();
 		Query query = em.createNamedQuery("Project.findAll", Project.class);
@@ -85,7 +86,7 @@ public class ProjectImpl {
 		try {
 			project = query.getResultList();
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return project;
 	}
@@ -97,14 +98,15 @@ public class ProjectImpl {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public static List<Project> findProjectsByStatus(String status) {
+	public static List<Project> findProjectsByStatus(CompletionStatus status) {
 		EntityManager em = ABCDao.instance.getEntityManager();
 		Query query = em.createNamedQuery("Project.findByStatus", Project.class).setParameter("status", status);
 		List<Project> project = null;
 		try {
 			project = query.getResultList();
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
+
 		}
 		return project;
 	}
@@ -120,12 +122,13 @@ public class ProjectImpl {
 	public static List<Project> findProjectsByKeywordAndCity(String keyword, String city) {
 		EntityManager em = ABCDao.instance.getEntityManager();
 		Query query = em.createNamedQuery("Project.findByKeyWordAndLocation", Project.class)
-				.setParameter("keyword", keyword).setParameter("city", city);
+				.setParameter("keyword", keyword)
+				.setParameter("city", city);
 		List<Project> project = null;
 		try {
 			project = query.getResultList();
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return project;
 	}
@@ -145,7 +148,7 @@ public class ProjectImpl {
 		try {
 			project = query.getResultList();
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return project;
 	}
@@ -157,14 +160,14 @@ public class ProjectImpl {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public static List<Task> findTasksByProjectIs(int id) {
+	public static List<Task> findTasksByProject(int id) {
 		EntityManager em = ABCDao.instance.getEntityManager();
-		Query query = em.createNamedQuery("Project.findById", Task.class).setParameter("projectId", id);
+		Query query = em.createNamedQuery("Task.findByProject", Task.class).setParameter("projectId", id);
 		try {
 			List<Task> tasks = query.getResultList();
 			return tasks;
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 			return null;
 		}
 	}
@@ -185,7 +188,7 @@ public class ProjectImpl {
 			List<Project> projects = query.getResultList();
 			return projects;
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 			return null;
 		}
 	}

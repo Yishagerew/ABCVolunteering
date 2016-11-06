@@ -3,6 +3,7 @@ package edu.mum.abcVolunteering.model;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -22,8 +23,7 @@ public class Volunteer {
 	private int volunteerId;
 	
 	private String name;
-	@Temporal(TemporalType.DATE)
-	private Date registeredDate;
+
 	@Embedded
 	private Address address;
 	
@@ -36,9 +36,8 @@ public class Volunteer {
 	private static DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, Locale.US);
 
 
-	public Volunteer(String name, String registeredDate, Address address) {
+	public Volunteer(String name, Address address) {
 		this.name = name;
-		setRegisteredDate(registeredDate);
 		this.address = address;
 	}
 
@@ -46,16 +45,21 @@ public class Volunteer {
 		return name;
 	}
 
-	public String getRegisteredDate() {
-		return df.format(registeredDate);
-	}
 
 	public Address getAddress() {
 		return address;
 	}
 
 	public List<Task> getTasks() {
-		return tasks;
+		return Collections.unmodifiableList(tasks);
+	}
+	public void addTask(Task task){
+		task.setVolunteer(this);
+		tasks.add(task);
+	}
+	public void removeTask(Task task){
+		task.setVolunteer(this);
+		this.tasks.remove(task);
 	}
 
 	public void setTasks(List<Task> tasks) {
@@ -70,13 +74,28 @@ public class Volunteer {
 		this.account = account;
 	}
 
-	public void setRegisteredDate(String registeredDate) {
-		try {
-			this.registeredDate = df.parse(registeredDate);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+	public int getVolunteerId() {
+		return volunteerId;
 	}
+
+	public void setVolunteerId(int volunteerId) {
+		this.volunteerId = volunteerId;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	@Override
+	public String toString() {
+		return "Volunteer [volunteerId=" + volunteerId + ", name=" + name + ", address=" + address + ", account="
+				+ account + "]";
+	}
+
 	
 	
 }
