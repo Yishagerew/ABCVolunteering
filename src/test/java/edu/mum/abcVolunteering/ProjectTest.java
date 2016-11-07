@@ -10,6 +10,7 @@ import java.util.List;
 import org.apache.commons.io.IOUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.Assert;
 
 import edu.mum.abcVolunteering.business.BeneficiaryImpl;
 import edu.mum.abcVolunteering.business.ProjectImpl;
@@ -30,22 +31,23 @@ public class ProjectTest {
 	public static Volunteer volunteer;
 	public static Project project;
 	public static Beneficiary beneficiaryTest;
+
 	@BeforeClass
 	public static void setUp() throws Exception {
-		
+
 		InputStream targetStream = null;
 		try {
 
-			targetStream = new FileInputStream(new File(
-					"C:\\Woskspace\\Spring\\ABCVolunteering\\src\\main\\resources\\images\\Google.jpg"));
+			targetStream = new FileInputStream(
+					new File("C:\\Woskspace\\Spring\\ABCVolunteering\\src\\main\\resources\\images\\Google.jpg"));
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 		InputStream targetStream2 = null;
 		try {
 
-			targetStream2 = new FileInputStream(new File(
-					"C:\\Woskspace\\Spring\\ABCVolunteering\\src\\main\\resources\\images\\Yahoo.png"));
+			targetStream2 = new FileInputStream(
+					new File("C:\\Woskspace\\Spring\\ABCVolunteering\\src\\main\\resources\\images\\Yahoo.png"));
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -104,15 +106,15 @@ public class ProjectTest {
 		project1.addTask(task1);
 		project1.addTask(task2);
 		project2.addTask(task3);
-		
-		project = project1;//used for other tests
+
+		project = project1;// used for other tests
 
 		Beneficiary google = new Beneficiary("Google", profilePhoto1, "11/02/2016");
 		google.addProject(project1);
 		Beneficiary yahoo = new Beneficiary("Yahoo", profilePhoto2, "11/02/2016");
 		yahoo.addProject(project2);
-		
-		beneficiaryTest = google; //used for other tests
+
+		beneficiaryTest = google; // used for other tests
 
 		BeneficiaryImpl.addNewBeneficiary(google);
 		BeneficiaryImpl.addNewBeneficiary(yahoo);
@@ -123,44 +125,44 @@ public class ProjectTest {
 		System.out.println(google);
 		System.out.println("=====================Tasks and volunteers=========");
 		google.getProjects().forEach(e -> {
-		
+
 			System.out.println("Tasks under project");
 			e.getTasks().forEach(e1 -> {
-			System.out.println(e1);
-			System.out.println("===================Volunteer under this task=========");
-			System.out.println(e1.getVolunteer());
-			System.out.println("============Skills required by this task==============");
-			e1.getRequiredSkill().forEach(e2 -> System.out.println(e2));
-		});});
+				System.out.println(e1);
+				System.out.println("===================Volunteer under this task=========");
+				System.out.println(e1.getVolunteer());
+				System.out.println("============Skills required by this task==============");
+				e1.getRequiredSkill().forEach(e2 -> System.out.println(e2));
+			});
+		});
 		System.out.println("========================Beneficiary: ==============");
 		System.out.println(yahoo);
 		yahoo.getProjects().forEach(e -> {
-			
+
 			System.out.println("Tasks under project");
 			e.getTasks().forEach(e1 -> {
-			System.out.println(e1);
-			System.out.println("===================Volunteer under this task=========");
-			System.out.println(e1.getVolunteer());
-			System.out.println("============Skills required by this task==============");
-			e1.getRequiredSkill().forEach(e2 -> System.out.println(e2));
-		});});
-		
-		
-		
-		
-		
+				System.out.println(e1);
+				System.out.println("===================Volunteer under this task=========");
+				System.out.println(e1.getVolunteer());
+				System.out.println("============Skills required by this task==============");
+				e1.getRequiredSkill().forEach(e2 -> System.out.println(e2));
+			});
+		});
+
 		Staff staff = new Staff("Lulie", "admin@gmail.com", "12345");
 		staff.setAddress(address2);
 		StaffImpl.addNewStaffInfo(staff);
-		
+
 		System.out.println("=====================Admin info=====================");
 		System.out.println(staff);
-		
+
 		volunteer = volunteer1;
-		
-		System.out.println("==============================================================================================");
+
+		System.out.println(
+				"==============================================================================================");
 		System.out.println("Test results");
-		System.out.println("==============================================================================================");
+		System.out.println(
+				"==============================================================================================");
 
 	}
 
@@ -171,8 +173,11 @@ public class ProjectTest {
 		CompletionStatus status = CompletionStatus.ONGOING;
 		List<Project> projects = ProjectImpl.findProjectsByStatus(status);
 		projects.forEach(e -> System.out.println(e));
+
+		Assert.assertEquals("All prjects with this status are not retrieved", projects.size(), 2);
+
 		System.out.println("====================================================");
-		
+
 	}
 
 	@Test
@@ -182,6 +187,10 @@ public class ProjectTest {
 		System.out.println("====================================================");
 		List<Project> projects = ProjectImpl.getAllProjectsInfoByStatus();
 		projects.forEach(e -> System.out.println(e));
+		
+		Assert.assertEquals("All projects are just not retrieved", projects.size(), 2);
+
+		
 		System.out.println("====================================================");
 	}
 
@@ -192,6 +201,8 @@ public class ProjectTest {
 		System.out.println("====================================================");
 		List<Project> projects = ProjectImpl.findProjectsByKeywordAndCity("%framework%", "Fairfield");
 		projects.forEach(e -> System.out.println(e));
+	
+		
 		System.out.println("====================================================");
 	}
 
@@ -203,7 +214,7 @@ public class ProjectTest {
 		List<Project> projects = ProjectImpl.findProjectsByRequiredSkill("PHP");
 		projects.forEach(e -> System.out.println(e));
 		System.out.println("====================================================");
-		
+
 	}
 
 	@Test
@@ -222,16 +233,16 @@ public class ProjectTest {
 		System.out.println("====================================================");
 		List<Project> projects = ProjectImpl.findProjectsByVolunteerId(volunteer.getVolunteerId());
 		projects.forEach(e -> System.out.println(e));
-		System.out.println("====================================================");	
+		System.out.println("====================================================");
 	}
+
 	@Test
-	public void testfindAllBeneficiaries(){
+	public void testfindAllBeneficiaries() {
 		System.out.println("List of beneficiaries and respective projects:");
 		System.out.println("====================================================");
 		List<Beneficiary> beneficiaries = BeneficiaryImpl.findAllBeneficiaries();
 		beneficiaries.forEach(e -> System.out.println(e));
-		System.out.println("====================================================");	
+		System.out.println("====================================================");
 	}
-	
 
 }
