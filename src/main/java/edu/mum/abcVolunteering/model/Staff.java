@@ -4,9 +4,13 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 @Entity
-
+@NamedQueries({ 
+	@NamedQuery(name = "Staff.findByUserName", query = "select s from Staff s where s.account.email = :email"),
+})
 public class Staff {
 	
 	@Id

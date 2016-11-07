@@ -33,7 +33,7 @@ I put 2 user levels - administrator and the other a volunteer in the design howe
  - ability List projects by status
  - ability to Look for projects that requires a particular type of resource/skill
  - ability to Search projects by keywords and location
- - ability List projects and tasks where a volunteer have offered services, ordered by time of the task.
+ - ability List projects and tasks where a volunteer have offered services, ordered by time of the task. 
 
 
 

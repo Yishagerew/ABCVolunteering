@@ -52,8 +52,20 @@ public class TaskImpl {
 		}
 		return -1;
 	}
-	
-	
-	
-	
+
+	public static int updateTaskInfo(Task task) {
+		EntityManager em = ABCDao.instance.getEntityManager();
+
+		try {
+			EntityTransaction tx = em.getTransaction();
+			tx.begin();
+			em.merge(task);
+			tx.commit();
+			return 1;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return -1;
+	}
+
 }
