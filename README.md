@@ -18,7 +18,8 @@ This is a very simple project which make uses of hibernate. It has 3 main packag
 
 under src/test/java
 
-edu.mum.abcVolunteering.ProjectTest - contains all test cases
+edu.mum.abcVolunteering.ProjectTest - contains all test cases of required operations
+edu.mum.abcVolunteering.StaffTest - contains test cases for staff CRUD operation
 #Authentication
 
 User authentication is not done as I was just working on functionalities. It really needs more console to mimic.
