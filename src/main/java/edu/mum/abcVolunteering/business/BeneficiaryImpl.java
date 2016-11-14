@@ -9,7 +9,6 @@ import javax.persistence.Query;
 
 import edu.mum.abcVolunteering.dao.ABCDao;
 import edu.mum.abcVolunteering.model.Beneficiary;
-import edu.mum.abcVolunteering.model.Project;
 
 public class BeneficiaryImpl {
 
