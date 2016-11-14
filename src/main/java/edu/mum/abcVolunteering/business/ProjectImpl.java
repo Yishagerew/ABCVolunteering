@@ -7,10 +7,10 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
-import edu.mum.abcVolunteering.dao.ABCDao;
 import edu.mum.abcVolunteering.model.CompletionStatus;
 import edu.mum.abcVolunteering.model.Project;
 import edu.mum.abcVolunteering.model.Task;
+import edu.mum.abcVolunteering.repository.ABCDao;
 
 public class ProjectImpl {
 

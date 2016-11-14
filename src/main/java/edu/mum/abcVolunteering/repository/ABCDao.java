@@ -1,4 +1,4 @@
-package edu.mum.abcVolunteering.dao;
+package edu.mum.abcVolunteering.repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

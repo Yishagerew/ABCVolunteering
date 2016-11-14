@@ -7,8 +7,8 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
-import edu.mum.abcVolunteering.dao.ABCDao;
 import edu.mum.abcVolunteering.model.Beneficiary;
+import edu.mum.abcVolunteering.repository.ABCDao;
 
 public class BeneficiaryImpl {
 
@@ -20,7 +20,7 @@ public class BeneficiaryImpl {
 	 */
 	public static Beneficiary findBeneficiaryAndProjects(int beneficiaryId) {
 		EntityManager em = ABCDao.instance.getEntityManager();
-		Query query = em.createNamedQuery("Beneficiary.findProjects", Beneficiary.class).setParameter("skillName",
+		Query query = em.createNamedQuery("Beneficiary.findProjects", Beneficiary.class).setParameter("beneficiaryId",
 				beneficiaryId);
 		Beneficiary beneficiary = null;
 		try {
