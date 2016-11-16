@@ -11,7 +11,7 @@ import edu.mum.abcVolunteering.model.Beneficiary;
 import edu.mum.abcVolunteering.service.BeneficiaryService;
 
 @Controller
-@RequestMapping(value = "beneficiaries")
+@RequestMapping(value = "/beneficiaries")
 public class BeneficiaryController {
 	
 	static int pageSize;

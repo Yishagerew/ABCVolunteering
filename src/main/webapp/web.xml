@@ -4,39 +4,41 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	id="WebApp_ID" version="2.5">
 
-	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/spring/root-context.xml</param-value>
-	</context-param>
-	<listener>
-		<listener-class>
-			com.sun.faces.config.ConfigureListener
-		</listener-class>
-	</listener>
+
+	<!-- listener> <listener-class> com.sun.faces.config.ConfigureListener </listener-class> 
+		</listener -->
 
 	<!-- spring context used by all servlets and filters -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+	<!-- context-param> <param-name>contextConfigLocation</param-name> <param-value> 
+		/WEB-INF/spring/servletapp/servlet-context.xml </param-value> </context-param -->
+
+
 
 	<!-- Processes application requests -->
 	<servlet>
-		<servlet-name>servletapp</servlet-name>
+		<servlet-name>SpringMVC</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/spring/servletapp/servlet-context.xml</param-value>
+			<param-value>
+            /WEB-INF/applicationcontext.xml
+        </param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-		<!-- <servlet-mapping> <servlet-name>servletapp</servlet-name> <url-pattern>/</url-pattern> 
-			</servlet-mapping> -->
-		<servlet-mapping>
-			<servlet-name>servletapp</servlet-name>
-			<url-pattern>/</url-pattern>
-		</servlet-mapping>
-			<welcome-file-list>
-				<welcome-file>beneficiary.jsp</welcome-file>
-			</welcome-file-list>
-			
+	<!-- <servlet-mapping> <servlet-name>servletapp</servlet-name> <url-pattern>/</url-pattern> 
+		</servlet-mapping> -->
+	<servlet-mapping>
+		<servlet-name>SpringMVC</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/views/page-not-found.jsp</location>
+	</error-page>
+
+
 </web-app>

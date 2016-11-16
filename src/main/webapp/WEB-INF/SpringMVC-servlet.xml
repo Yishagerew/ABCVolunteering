@@ -15,7 +15,8 @@
 
 
 	<mvc:annotation-driven />
-	<context:component-scan base-package="edu" />
+	<context:component-scan base-package="edu.mum.abcVolunteering" />
+	<mvc:resources location="/resources/" mapping="/resource/**" />
 
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
@@ -27,12 +28,9 @@
 		<property name="suffix" value=".jsp" />
 	</bean>
 	
+	
 	<!-- Lets us find resources (.html etc) through the default servlet -->
 	<mvc:default-servlet-handler/> 
 	
-
-	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
-		up static resources in the ${webappRoot}/resources/ directory -->
-	<mvc:resources mapping="/resources/**" location="/resources/" />
 
 </beans>
