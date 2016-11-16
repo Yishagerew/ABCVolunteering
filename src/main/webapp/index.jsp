@@ -9,7 +9,7 @@
 <title>ABC project volunteering</title>
 </head>
 <body>
-Abc Volunteer project
+Abc Volunteer project sfsdfsdfd
 
 <a href="<c:url value='/beneficiaries' />" >Beneficiaries</a>
 </body>

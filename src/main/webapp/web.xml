@@ -21,19 +21,24 @@
 	<servlet>
 		<servlet-name>SpringMVC</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+<!-- 		<init-param> -->
+<!-- 			<param-name>contextConfigLocation</param-name> -->
+<!-- 			<param-value> -->
+<!--             /WEB-INF/SpringMVC-servlet.xml -->
+<!--         </param-value> -->
+<!-- 		</init-param> -->
+
 		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>
-            /WEB-INF/applicationcontext.xml
-        </param-value>
-		</init-param>
+	        <param-name>contextConfigLocation</param-name>
+	        <param-value>/WEB-INF/SpringMVC-servlet.xml</param-value>
+	    </init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<!-- <servlet-mapping> <servlet-name>servletapp</servlet-name> <url-pattern>/</url-pattern> 
 		</servlet-mapping> -->
 	<servlet-mapping>
 		<servlet-name>SpringMVC</servlet-name>
-		<url-pattern>/</url-pattern>
+		<url-pattern>/a/*</url-pattern>
 	</servlet-mapping>
 	<error-page>
 		<error-code>404</error-code>

@@ -19,6 +19,10 @@ public class BeneficiaryController {
 	@Autowired
 	BeneficiaryService service;
 	
+	public BeneficiaryController() {
+		System.out.println("asdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
+	}
+	
 	@RequestMapping("")
 	public String getAllBeneficiaries(Model m){
 		
